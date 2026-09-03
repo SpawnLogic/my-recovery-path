@@ -42,26 +42,17 @@ export function AuthForm() {
     try {
       const email = usernameToEmail(username);
       if (mode === "signup") {
-        const { data, error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { data: { username: username.trim().toLowerCase() } },
+        const result = await signUpWithUsername({
+          data: { username: username.trim(), password },
         });
-        if (signUpError) throw signUpError;
-        if (!data.session) {
-          const { error: signInError } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-          if (signInError) {
-            setNotice("Account created. You can now sign in.");
-            setMode("signin");
-          }
+        if (!result.ok) {
+          setError(result.error);
+          return;
         }
-      } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (signInError) throw signInError;
       }
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) throw signInError;
+
     } catch (err) {
       setError(friendlyError(err instanceof Error ? err.message : String(err), mode));
     } finally {
