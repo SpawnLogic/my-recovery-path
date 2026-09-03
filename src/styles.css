@@ -148,3 +148,16 @@
     color: var(--color-foreground);
   }
 }
+
+@layer base {
+  body {
+    background-image: var(--surface-glow);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
