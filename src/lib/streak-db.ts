@@ -5,7 +5,7 @@ import { elapsedSeconds, type StreakRecord } from "./streak";
 // loosely typed accessor for the streaks table only.
 const table = () => (supabase as unknown as { from: (t: string) => any }).from("streaks");
 
-export const USERNAME_DOMAIN = "nofapcenter.app";
+export const USERNAME_DOMAIN = "nofapcenter.com";
 
 export function usernameToEmail(username: string): string {
   return `${username.trim().toLowerCase()}@${USERNAME_DOMAIN}`;
