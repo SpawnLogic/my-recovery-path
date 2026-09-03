@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { ShieldCheck, Loader2 } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
+import { signUpWithUsername } from "@/lib/auth.functions";
 import { usernameToEmail, validateUsername } from "@/lib/streak-db";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
