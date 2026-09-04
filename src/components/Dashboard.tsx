@@ -162,9 +162,7 @@ export function Dashboard({ user }: { user: User }) {
       <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <StatCard
           label="Longest streak"
-          value={
-            bestSeconds > 0 ? formatDuration(bestSeconds) : "None yet"
-          }
+          value={bestSeconds >= 60 ? formatDuration(bestSeconds) : "Just started"}
           hint={currentIsBest ? "This is your best run yet" : undefined}
           icon={<Award className="size-3.5" aria-hidden />}
         />
