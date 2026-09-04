@@ -42,11 +42,14 @@ export function AuthForm() {
     try {
       const email = usernameToEmail(username);
       if (mode === "signup") {
-        const result = await signUpWithUsername({
-          data: { username: username.trim(), password },
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { username: username.trim().toLowerCase() } },
         });
-        if (!result.ok) {
-          setError(result.error);
+        if (signUpError) throw signUpError;
+        if (data.session) {
+          setBusy(false);
           return;
         }
       }
