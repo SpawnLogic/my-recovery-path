@@ -14,7 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      streaks: {
+        Row: {
+          last_streak_seconds: number
+          longest_streak_seconds: number
+          streak_started_at: string
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          last_streak_seconds?: number
+          longest_streak_seconds?: number
+          streak_started_at?: string
+          updated_at?: string
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          last_streak_seconds?: number
+          longest_streak_seconds?: number
+          streak_started_at?: string
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
