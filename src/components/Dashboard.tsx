@@ -119,6 +119,7 @@ export function Dashboard({ user }: { user: User }) {
   const progress = dayProgress(total);
   const remaining = secondsUntilNextDay(total);
   const currentIsBest = total >= record.longest_streak_seconds && total > 0;
+  const bestSeconds = Math.max(record.longest_streak_seconds, total);
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col gap-6 px-5 pb-10 pt-8 sm:max-w-2xl">
@@ -152,7 +153,8 @@ export function Dashboard({ user }: { user: User }) {
             {milestoneLabel(total)} · {Math.round(progress * 100)}% to the next 24 hours
           </p>
           <p className="text-xs text-muted-foreground">
-            {formatDuration(remaining)} left to complete this day
+            {Math.floor(remaining / 3600)}h {Math.floor((remaining % 3600) / 60)}m left to complete
+            this day
           </p>
         </div>
       </section>
@@ -160,7 +162,9 @@ export function Dashboard({ user }: { user: User }) {
       <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <StatCard
           label="Longest streak"
-          value={formatDuration(Math.max(record.longest_streak_seconds, currentIsBest ? total : 0))}
+          value={
+            bestSeconds > 0 ? formatDuration(bestSeconds) : "None yet"
+          }
           hint={currentIsBest ? "This is your best run yet" : undefined}
           icon={<Award className="size-3.5" aria-hidden />}
         />
