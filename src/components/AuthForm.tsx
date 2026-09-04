@@ -2,8 +2,7 @@ import { useState, type FormEvent } from "react";
 import { ShieldCheck, Loader2 } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
-import { signUpWithUsername } from "@/lib/auth.functions";
-import { usernameToEmail, validateUsername } from "@/lib/streak-db";
+import { LEGACY_USERNAME_DOMAIN, usernameToEmail, validateUsername } from "@/lib/streak-db";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -43,16 +42,30 @@ export function AuthForm() {
     try {
       const email = usernameToEmail(username);
       if (mode === "signup") {
-        const result = await signUpWithUsername({
-          data: { username: username.trim(), password },
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { username: username.trim().toLowerCase() } },
         });
-        if (!result.ok) {
-          setError(result.error);
+        if (signUpError) throw signUpError;
+        if (data.session) {
+          setBusy(false);
           return;
         }
       }
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) throw signInError;
+      if (signInError) {
+        if (mode === "signin" && signInError.message.toLowerCase().includes("invalid login")) {
+          // Accounts created before the client-side auth switch use the legacy domain.
+          const legacy = await supabase.auth.signInWithPassword({
+            email: usernameToEmail(username, LEGACY_USERNAME_DOMAIN),
+            password,
+          });
+          if (!legacy.error) return;
+        }
+        throw signInError;
+      }
+
 
     } catch (err) {
       setError(friendlyError(err instanceof Error ? err.message : String(err), mode));
