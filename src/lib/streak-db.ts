@@ -5,10 +5,12 @@ import { elapsedSeconds, type StreakRecord } from "./streak";
 // loosely typed accessor for the streaks table only.
 const table = () => (supabase as unknown as { from: (t: string) => any }).from("streaks");
 
-export const USERNAME_DOMAIN = "nofapcenter.com";
+export const USERNAME_DOMAIN = "nofapcenter.app";
+// Accounts created before the client-side auth switch used this domain.
+export const LEGACY_USERNAME_DOMAIN = "nofapcenter.com";
 
-export function usernameToEmail(username: string): string {
-  return `${username.trim().toLowerCase()}@${USERNAME_DOMAIN}`;
+export function usernameToEmail(username: string, domain: string = USERNAME_DOMAIN): string {
+  return `${username.trim().toLowerCase()}@${domain}`;
 }
 
 export function validateUsername(username: string): string | null {
