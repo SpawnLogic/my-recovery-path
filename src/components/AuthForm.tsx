@@ -54,7 +54,18 @@ export function AuthForm() {
         }
       }
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) throw signInError;
+      if (signInError) {
+        if (mode === "signin" && signInError.message.toLowerCase().includes("invalid login")) {
+          // Accounts created before the client-side auth switch use the legacy domain.
+          const legacy = await supabase.auth.signInWithPassword({
+            email: usernameToEmail(username, LEGACY_USERNAME_DOMAIN),
+            password,
+          });
+          if (!legacy.error) return;
+        }
+        throw signInError;
+      }
+
 
     } catch (err) {
       setError(friendlyError(err instanceof Error ? err.message : String(err), mode));
