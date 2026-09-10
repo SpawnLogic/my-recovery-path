@@ -6,7 +6,15 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// GitHub Pages project site is served from https://<user>.github.io/my-recovery-path/
+// so the production build must emit asset URLs under that sub-path.
+// Dev/preview inside Lovable keeps serving from "/".
+const base = process.env.NODE_ENV === "production" ? "/my-recovery-path/" : "/";
+
 export default defineConfig({
+  vite: {
+    base,
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
