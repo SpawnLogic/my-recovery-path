@@ -33,7 +33,9 @@ jobs:
 
       - name: Build static site
         run: bun run build:static
-        env: VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }} VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
