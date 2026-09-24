@@ -14,6 +14,9 @@ const base = process.env['NODE_ENV'] === "production" ? "/my-recovery-path/" : "
 export default defineConfig({
   vite: {
     base,
+    build: {
+      outDir: ".output/public",
+    },
   },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
