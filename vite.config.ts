@@ -14,20 +14,11 @@ const base = process.env['NODE_ENV'] === "production" ? "/my-recovery-path/" : "
 export default defineConfig({
   vite: {
     base,
-    build: {
-      outDir: ".output/public",
-    },
   },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
-    server: {
-      entry: "server",
-      output: {
-        dir: ".output",
-        publicDir: "public",
-      },
-    },
+    server: { entry: "server" },
     // Static hosting (GitHub Pages): the app is a single client-rendered route,
     // so prerender it to HTML at build time. No server functions are used.
     pages: [{ path: "/" }],
