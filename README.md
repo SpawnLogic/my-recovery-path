@@ -5,6 +5,7 @@ A private, personal recovery streak tracker. Sign up with a username and passwor
 [![CI / GitHub Actions](https://github.com/SpawnLogic/my-recovery-path/actions/workflows/deploy.yml/badge.svg)](https://github.com/SpawnLogic/my-recovery-path/actions/workflows/deploy.yml)
 ![Maintenance](https://img.shields.io/badge/maintenance-actively%20maintained-brightgreen)
 ![Repo Status](https://img.shields.io/badge/repo%20status-active-brightgreen)
+![Last Commit](https://img.shields.io/github/last-commit/SpawnLogic/my-recovery-path/main)
 ![Version](https://img.shields.io/github/package-json/v/SpawnLogic/my-recovery-path/main?label=version)
 
 ## Tech Stack
